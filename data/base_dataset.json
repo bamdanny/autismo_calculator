@@ -1,0 +1,51 @@
+{
+  "version": "1.0.0",
+  "description": "Sample base dataset capturing normalization and directionality metadata for the conviction calculator.",
+  "categories": {
+    "derivatives": {
+      "label": "Derivatives",
+      "fields": {
+        "funding": {"direction": -1, "mean": 0.0, "std": 0.01, "weight": 1.0, "description": "Perpetual futures funding rate"},
+        "funding_oi_weighted": {"direction": -1, "mean": 0.0, "std": 0.015, "weight": 1.2, "description": "Funding rate weighted by open interest"},
+        "premium_index": {"direction": -1, "mean": 0.002, "std": 0.01, "weight": 0.8, "description": "Futures premium index"},
+        "oi_delta_mil": {"direction": 1, "mean": 0.0, "std": 150.0, "weight": 1.0, "description": "Change in open interest (millions)"},
+        "long_short_ratio": {"direction": -1, "mean": 1.2, "std": 0.3, "weight": 0.8, "description": "Long/short ratio"},
+        "taker_bs_ratio": {"direction": 1, "mean": 0.0, "std": 0.5, "weight": 0.6, "description": "Taker buy-sell imbalance"},
+        "futures_cvd_bil": {"direction": 1, "mean": 0.0, "std": 0.3, "weight": 1.1, "description": "Futures cumulative volume delta (billions)"},
+        "options.call_oi": {"direction": 1, "mean": 1.5, "std": 0.6, "weight": 0.7, "description": "Options call open interest"},
+        "options.put_oi": {"direction": -1, "mean": 1.2, "std": 0.5, "weight": 0.7, "description": "Options put open interest"},
+        "options.pcr": {"direction": -1, "mean": 0.95, "std": 0.2, "weight": 0.9, "description": "Put/Call ratio"},
+        "options.iv_1w": {"direction": 1, "mean": 0.5, "std": 0.1, "weight": 0.5, "description": "1 week implied volatility"},
+        "options.skew_25d": {"direction": 1, "mean": -5.0, "std": 3.0, "weight": 0.6, "description": "25 delta skew"}
+      }
+    },
+    "liquidity_levels": {
+      "label": "Liquidity & Levels",
+      "fields": {
+        "dist_support": {"direction": 1, "mean": 1.5, "std": 0.5, "weight": 0.8, "description": "Distance to support (in %)"},
+        "dist_resistance": {"direction": -1, "mean": 1.5, "std": 0.5, "weight": 0.8, "description": "Distance to resistance (in %)"},
+        "hvn_wall": {"direction": -1, "mean": 500.0, "std": 150.0, "weight": 0.6, "description": "High-volume node wall size"},
+        "lvn_level": {"direction": 1, "mean": -250.0, "std": 120.0, "weight": 0.6, "description": "Low-volume node support"},
+        "support_band_strength": {"direction": 1, "mean": 0.5, "std": 0.3, "weight": 0.7, "description": "Support band qualitative strength"},
+        "overhead_cluster_strength": {"direction": -1, "mean": 0.6, "std": 0.3, "weight": 0.7, "description": "Overhead supply cluster strength"}
+      }
+    },
+    "spot_flow": {
+      "label": "Spot & Flow",
+      "fields": {
+        "spot_cvd_bil": {"direction": 1, "mean": 0.0, "std": 0.25, "weight": 1.0, "description": "Spot cumulative volume delta (billions)"},
+        "spot_taker_buy_usd": {"direction": 1, "mean": 250.0, "std": 120.0, "weight": 0.8, "description": "Spot taker buy volume (millions USD)"},
+        "spot_taker_sell_usd": {"direction": -1, "mean": 245.0, "std": 120.0, "weight": 0.8, "description": "Spot taker sell volume (millions USD)"},
+        "stablecoin_flow_bil": {"direction": 1, "mean": 0.0, "std": 0.2, "weight": 0.6, "description": "Net stablecoin flow (billions)"},
+        "fut_spot_ratio": {"direction": -1, "mean": 1.05, "std": 0.2, "weight": 0.6, "description": "Futures to spot volume ratio"}
+      }
+    },
+    "catalysts": {
+      "label": "Catalysts",
+      "fields": {
+        "tilt": {"direction": 1, "mean": 0.0, "std": 0.5, "weight": 0.5, "description": "Event-driven tilt (-1 to 1)"}
+      },
+      "decay_days": 3
+    }
+  }
+}
