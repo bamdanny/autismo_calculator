@@ -7,7 +7,7 @@ Local Streamlit app that ingests JSON/CSV market snapshots, contextualizes them 
 - rationale + category contributions
 - persistent ledger row in `data/ledger.csv`
 
-## Run locally
+## Run locally (full UI)
 
 1. Install dependencies:
 
@@ -23,20 +23,50 @@ streamlit run streamlit_app.py
 
 3. Open the URL printed by Streamlit (normally `http://localhost:8501`).
 
-## Deploying: Vercel vs Streamlit hosting
+## Vercel deployment (API environment)
 
-Short answer: **Vercel is not a good fit for this app in its current form**.
+Since you connected the GitHub repo to Vercel, this repo now includes a deployable serverless endpoint:
 
-Why:
+- `POST /api/score`
 
-- This is a long-running Streamlit process, while Vercel is optimized for serverless functions/static sites.
-- The app writes snapshots/ledger files to local disk (`data/snapshots`, `data/ledger.csv`), but Vercel’s filesystem is ephemeral.
-- Streamlit apps are typically deployed on Streamlit Community Cloud, Render, Railway, or a VM/container host.
+What Vercel deploys in this setup:
 
-If you still want Vercel, you’d need a larger redesign (separate frontend + API + external database/object storage).
+- ✅ JSON scoring API (stateless)
+- ❌ Streamlit UI and local ledger persistence (Vercel filesystem is ephemeral)
+
+### Example request
+
+```bash
+curl -X POST "https://<your-vercel-domain>/api/score" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "metadata": {"symbol": "BTC", "as_of": "2026-01-01T00:00:00Z"},
+    "derivatives": {"funding": 0.01, "oi_now_bil": 18.2},
+    "catalysts": {"tilt": 0.3}
+  }'
+```
+
+### Example response
+
+```json
+{
+  "score": 54.72,
+  "orientation": "No trade",
+  "coverage": 0.29,
+  "category_pressures": {
+    "Derivatives": 0.07,
+    "Liquidity / Levels": 0.0,
+    "Spot / Flow": 0.0,
+    "Catalysts": 0.11
+  },
+  "rationale": ["..."],
+  "unknown_fields": [],
+  "timestamp": "2026-01-01T00:00:00+00:00"
+}
+```
 
 ## Current data files
 
 - `data/base_dataset.json`: versioned normalization/directionality metadata.
-- `data/snapshots/`: uploaded raw snapshots (created automatically).
-- `data/ledger.csv`: persisted scoring history (created automatically).
+- `data/snapshots/`: uploaded raw snapshots (created automatically by Streamlit app).
+- `data/ledger.csv`: persisted scoring history (created automatically by Streamlit app).
